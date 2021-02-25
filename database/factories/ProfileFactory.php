@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use App\Models\Profile;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -22,6 +23,7 @@ class ProfileFactory extends Factory
     public function definition()
     {
         return [
+            'owner_id' => User::all()->random()->id,
             'name' => $this->faker->name,
             'gender' => $this->faker->randomElement(['male', 'female']),
             'age' => $this->faker->numberBetween(28, 85)
