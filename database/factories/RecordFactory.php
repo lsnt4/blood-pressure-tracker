@@ -28,8 +28,8 @@ class RecordFactory extends Factory
 
         return [
             'profile_id' => Profile::all()->random()->id,
-            'systolic' => $randomPressure,
-            'diastolic' => $randomPressure - rand(24, 36),
+            'systole' => $randomPressure,
+            'diastole' => $randomPressure - rand(24, 36),
             'pulse' => $this->faker->randomElement([$randomPressure - rand(5, 10), $randomPressure + rand(5, 10)]),
             'is_irregular_hb' => $this->faker->randomElement([true, false, false, false, false]),
             'pulse_pressure' => $randomPressure - rand(5, 15),

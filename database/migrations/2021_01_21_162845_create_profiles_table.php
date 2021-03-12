@@ -17,7 +17,7 @@ class CreateProfilesTable extends Migration
             $table->id();
             $table->foreignId('owner_id')->constrained('users')->onDeleteCascade()->onUpdateCascade();
             $table->string('name', 32);
-            $table->enum('gender', ['male', 'female']);
+            $table->enum('gender', ['male', 'female', 'other']);
             $table->unsignedInteger('age');
             $table->timestamps();
         });
