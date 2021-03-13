@@ -35,7 +35,7 @@
     </x-slot>
     <div class="py-12">
         <div class="max-w-7xl mx-auto px-6 lg:px-8">
-            <div wire:loading.class="bg-gray" class="flex justify-between items-center mb-5">
+            <div class="flex justify-between items-center mb-5">
                 <!-- Left controls -->
                 <div x-data="{ open: false }" class="relative inline-block text-left">
                     <div class="flex">
@@ -66,7 +66,7 @@
                 <!-- Records table -->
                 <div class="overflow-x-auto">
                     <div class="border border-t-2 border-gray-100 align-middle inline-block min-w-full">
-                        <table class="min-w-full divide-y divide-gray-200">
+                        <table wire:loading.class="opacity-25" wire:target="checkout" class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-200">
                                 <tr>
                                     <th
