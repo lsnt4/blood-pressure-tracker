@@ -15,6 +15,16 @@ class Dashboard extends Component
     public $gender;
     public $age;
 
+    public $systole;
+    public $diastole;
+    public $pulse;
+    public $is_irregular_hb;
+    public $pulse_pressure;
+    public $mean_arterial_pressure;
+    public $location;
+    public $posture;
+    public $note;
+
     public $profileId;
     public $profileName;
     public $addRecordModalStatus;
@@ -25,8 +35,8 @@ class Dashboard extends Component
         'name' => 'required|min:2|max:32',
         'gender' => 'required',
         'age' => 'required|min:1|max:150',
-        'systolic' => 'required|numeric|min:0|max:350|gt:diastolic',
-        'diastolic' => 'required|numeric|min:0|max:350|lt:systolic',
+        'systole' => 'required|numeric|min:0|max:350|gt:diastole',
+        'diastole' => 'required|numeric|min:0|max:350|lt:systole',
         'pulse' => 'required|numeric|min:0|max:350',
         'is_irregular_hb' => 'nullable',
         'pulse_pressure' => 'nullable',
@@ -83,6 +93,38 @@ class Dashboard extends Component
         $this->reset();
 
         $this->setCurrentProfile($profile->id);
+    }
+
+    public function submitRecord()
+    {
+        $validatedData = $this->validate([
+            'systole' => 'required|numeric|min:0|max:350|gt:diastole',
+            'diastole' => 'required|numeric|min:0|max:350|lt:systole',
+            'pulse' => 'required|numeric|min:0|max:350',
+            'is_irregular_hb' => 'nullable',
+            'pulse_pressure' => 'nullable',
+            'mean_arterial_pressure' => 'nullable',
+            'location' => 'nullable',
+            'posture' => 'nullable',
+            'note' => 'nullable',
+        ]);
+
+        $record = new Record();
+        $record->profile_id = $this->profileId;
+        $record->systole = $this->systole;
+        $record->diastole = $this->diastole;
+        $record->pulse = $this->pulse;
+        $record->is_irregular_hb = $this->is_irregular_hb;
+        $record->pulse_pressure = $this->pulse_pressure;
+        $record->mean_arterial_pressure = $this->mean_arterial_pressure;
+        $record->location = $this->location;
+        $record->posture = $this->posture;
+        $record->note = $this->note;
+        $record->save();
+
+        $this->reset();
+        
+        $this->setCurrentProfile($record->profile->id);
     }
 
     public function setCurrentProfile($profileId = null)

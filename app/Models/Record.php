@@ -15,13 +15,13 @@ class Record extends Model
 
         if ($value < 90) {
             $color = 'bg-red-700';
-        } elseif ($value >= 90 && $value < 119) {
+        } elseif ($value >= 90 && $value < 120) {
             $color = 'bg-green-700';
-        } elseif ($value >= 120 && $value < 129) {
+        } elseif ($value >= 120 && $value < 130) {
             $color = 'bg-yellow-400';
-        } elseif ($value >= 130 && $value < 139) {
+        } elseif ($value >= 130 && $value < 140) {
             $color = 'bg-yellow-500';
-        } elseif ($value >= 140 && $value < 179) {
+        } elseif ($value >= 140 && $value < 180) {
             $color = 'bg-yellow-600';
         } elseif ($value >= 180) {
             $color = 'bg-red-700';
