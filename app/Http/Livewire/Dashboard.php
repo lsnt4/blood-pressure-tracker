@@ -25,15 +25,29 @@ class Dashboard extends Component
     public $posture;
     public $note;
 
+    public $setRecordId;
+    public $setProfileId;
+    public $setSystole;
+    public $setDiastole;
+    public $setPulse;
+    public $setIsIrregularHb;
+    public $setPulsePressure;
+    public $setMeanArterialPressure;
+    public $setLocation;
+    public $setPosture;
+    public $setNote;
+
     public $currentProfileId;
     public $currentProfileName;
     public $currentProfileGender;
     public $currentProfileAge;
     public $profileName;
+
     public $addRecordModalStatus;
     public $addProfileModalStatus;
     public $updateProfileModalStatus;
     public $removeProfileModalStatus;
+    public $updateRecordModalStatus;
 
     protected $rules = [
         'name' => 'required|min:2|max:32',
@@ -78,6 +92,7 @@ class Dashboard extends Component
         $this->addProfileModalStatus = false;
         $this->updateProfileModalStatus = false;
         $this->removeProfileModalStatus = false;
+        $this->updateRecordModalStatus = false;
     }
 
     public function submitProfile()
@@ -85,7 +100,7 @@ class Dashboard extends Component
         $validatedData = $this->validate([
             'name' => 'required|min:2|max:32|regex:/^[a-zA-Z\s]*$/',
             'gender' => 'required|in:male,female,other',
-            'age' => 'required|numeric|digits_between:0,180'
+            'age' => 'nullable|numeric|digits_between:0,180'
         ]);
 
         $profile = new Profile();
@@ -105,7 +120,7 @@ class Dashboard extends Component
         $validatedData = $this->validate([
             'currentProfileName' => 'required|min:2|max:32|regex:/^[a-zA-Z\s]*$/',
             'currentProfileGender' => 'required|in:male,female,other',
-            'currentProfileAge' => 'required|numeric|digits_between:0,180',
+            'currentProfileAge' => 'nullable|numeric|digits_between:0,180',
         ], [
         ], [
             'currentProfileName' => 'name',
@@ -155,6 +170,54 @@ class Dashboard extends Component
         $this->reset();
         
         $this->setCurrentProfile($record->profile->id);
+    }
+
+    public function setRecord($recordId)
+    {
+        $record = Record::find($recordId);
+
+        $this->setRecordId = $record->id;
+        $this->setProfileId = $record->profile_id;
+        $this->setSystole = $record->systole;
+        $this->setDiastole = $record->diastole;
+        $this->setPulse = $record->pulse;
+        $this->setIsIrregularHb = $record->is_irregular_hb;
+        $this->setPulsePressure = $record->pulse_pressure;
+        $this->setMeanArterialPressure = $record->mean_arterial_pressure;
+        $this->setLocation = $record->location;
+        $this->setPosture = $record->posture;
+        $this->setNote = $record->note;
+
+        $this->updateRecordModalStatus = true;
+    }
+
+    public function submitUpdateRecord()
+    {
+        $validatedData = $this->validate([
+            'setSystole' => 'required|numeric|min:0|max:350|gt:setDiastole',
+            'setDiastole' => 'required|numeric|min:0|max:350|lt:setSystole',
+            'setPulse' => 'required|numeric|min:0|max:350',
+            'setIsIrregularHb' => 'nullable',
+            'setPulsePressure' => 'nullable',
+            'setMeanArterialPressure' => 'nullable',
+            'setLocation' => 'nullable',
+            'setPosture' => 'nullable',
+            'setNote' => 'nullable',
+        ]);
+
+        $record = Record::find($this->setRecordId);
+        $record->systole = $this->setSystole;
+        $record->diastole = $this->setDiastole;
+        $record->pulse = $this->setPulse;
+        $record->is_irregular_hb = $this->setIsIrregularHb;
+        $record->pulse_pressure = $this->setPulsePressure;
+        $record->mean_arterial_pressure = $this->setMeanArterialPressure;
+        $record->location = $this->setLocation;
+        $record->posture = $this->setPosture;
+        $record->note = $this->setNote;
+        $record->update();
+
+        $this->reset();
     }
 
     public function setCurrentProfile($currentProfileId = null)

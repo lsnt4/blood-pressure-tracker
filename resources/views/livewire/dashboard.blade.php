@@ -150,7 +150,13 @@
                                         </td>
                                         <td
                                             class="px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
-                                            <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                                            <button wire:click.prevent="setRecord({{ $record->id }})" class="text-gray-200 font-bold bg-blue-600 ml-1 px-4 py-2 rounded-md border border-gray-400 shadow-sm">
+                                                <div class="w-5">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                                    </svg>
+                                                </div>
+                                            </button>
                                         </td>
                                     </tr>
                                     @endforeach
@@ -243,7 +249,7 @@
                         <button wire:click.prevent="submitUpdateProfile()" type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none sm:w-auto sm:text-sm">
                             Update Profile
                         </button>
-                        <button wire:click="$set('addProfileModalStatus', false)" type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none sm:mt-0 sm:w-auto sm:text-sm">
+                        <button wire:click="$set('updateProfileModalStatus', false)" type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none sm:mt-0 sm:w-auto sm:text-sm">
                             Cancel
                         </button>
                     </div>
@@ -261,7 +267,7 @@
                 <x-slot name="footer">
                     <button wire:click.prevent="$set('removeProfileModalStatus', false)" type="button" class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none sm:mt-0 sm:w-auto sm:text-sm">Cancel</button>
                     @if($currentProfileId)
-                    <button wire:click.prevent="removeCurrentProfile()" type="button" class="rounded-md border border-red-500 shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none sm:mt-0 sm:w-auto sm:text-sm">Delete</button>
+                    <button wire:click.prevent="removeCurrentProfile()" type="button" class="rounded-md border border-red-700 shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none sm:mt-0 sm:w-auto sm:text-sm">Delete</button>
                     @endif
                 </x-slot>
             </x-jet-confirmation-modal>
@@ -292,9 +298,9 @@
                         <div class="col-span-1">
                             <label for="is_irregular_hb" class="block text-sm font-medium text-gray-700"><abbr title="Irregular Heart Beat">IHB</abbr></label>
                             <select id="is_irregular_hb" wire:model.debounce.500ms="is_irregular_hb" autocomplete="location" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                <option value="">N/A</option>
                                 <option value="0">No</option>
                                 <option value="1">Yes</option>
+                                <option value="">N/A</option>
                             </select>
                             @error('is_irregular_hb') <span class="text-sm text-red-700">{{ $message }}</span> @enderror
                         </div>
@@ -339,6 +345,85 @@
                             Add Record
                         </button>
                         <button wire:click="$set('addRecordModalStatus', false)" type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none sm:mt-0 sm:w-auto sm:text-sm">
+                            Cancel
+                        </button>
+                    </div>
+                </x-slot>
+            </x-jet-dialog-modal>
+
+            <!-- Update record modal -->
+            <x-jet-dialog-modal wire:model="updateRecordModalStatus">
+                <x-slot name="title">
+                    {{ __('Update Record') }}
+                </x-slot>
+                <x-slot name="content">
+                    <!-- Form -->
+                    <div class="grid grid-cols-6 gap-6 my-8">
+                        <div class="col-span-2">
+                            <label for="systole" class="block text-sm font-medium text-gray-700">Systole*</label>
+                            <input type="number" min="0" max="350" wire:model.debounce.500ms="setSystole" id="systole" placeholder="120" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            @error('setSystole') <span class="text-sm text-red-700">{{ $message }}</span> @enderror
+                        </div>
+                        <div class="col-span-2">
+                            <label for="diastole" class="block text-sm font-medium text-gray-700">Diastole*</label>
+                            <input type="number" min="0" max="350" wire:model.debounce.500ms="setDiastole" id="diastole" placeholder="80" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            @error('setDiastole') <span class="text-sm text-red-700">{{ $message }}</span> @enderror
+                        </div>
+                        <div class="col-span-2">
+                            <label for="pulse" class="block text-sm font-medium text-gray-700">Pulse*</label>
+                            <input type="number" min="0" max="350" wire:model.debounce.500ms="setPulse" id="pulse" placeholder="72" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            @error('setPulse') <span class="text-sm text-red-700">{{ $message }}</span> @enderror
+                        </div>
+                        <div class="col-span-1">
+                            <label for="is_irregular_hb" class="block text-sm font-medium text-gray-700"><abbr title="Irregular Heart Beat">IHB</abbr></label>
+                            <select id="is_irregular_hb" wire:model.debounce.500ms="setIsIrregularHb" autocomplete="location" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                <option value="0">No</option>
+                                <option value="1">Yes</option>
+                                <option value="">N/A</option>
+                            </select>
+                            @error('setIsIrregularHb') <span class="text-sm text-red-700">{{ $message }}</span> @enderror
+                        </div>
+                        <div class="col-span-1">
+                            <label for="pp" class="block text-sm font-medium text-gray-700"><abbr title="Pulse Pressure">PP</abbr></label>
+                            <input type="number" min="0" max="350" wire:model.debounce.500ms="setPulsePressure" id="pp" autocomplete="given-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            @error('setPulsePressure') <span class="text-sm text-red-700">{{ $message }}</span> @enderror
+                        </div>
+                        <div class="col-span-1">
+                            <label for="map" class="block text-sm font-medium text-gray-700"><abbr title="Mean Arterial Pressure">MAP</abbr></label>
+                            <input type="number" min="0" max="180" wire:model.debounce.500ms="setMeanArterialPressure" id="map" autocomplete="family-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            @error('setMeanArterialPressure') <span class="text-sm text-red-700">{{ $message }}</span> @enderror
+                        </div>
+                        <div class="col-span-1">
+                            <label for="location" class="block text-sm font-medium text-gray-700">Location</label>
+                            <select id="location" wire:model.debounce.500ms="setLocation" autocomplete="location" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                <option value="left">Left</option>
+                                <option value="right">Right</option>
+                                <option value="other">Other</option>
+                            </select>
+                            @error('setLocation') <span class="text-sm text-red-700">{{ $message }}</span> @enderror
+                        </div>
+                        <div class="col-span-2">
+                            <label for="posture" class="block text-sm font-medium text-gray-700">Posture</label>
+                            <select id="posture" wire:model.debounce.500ms="setPosture" autocomplete="posture" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                <option value="seated">Seated</option>
+                                <option value="stand">Stand</option>
+                                <option value="other">Other</option>
+                            </select>
+                            @error('setPosture') <span class="text-sm text-red-700">{{ $message }}</span> @enderror
+                        </div>
+                        <div class="col-span-6">
+                            <label for="note" class="block text-sm font-medium text-gray-700">Note</label>
+                            <textarea type="text" wire:model.debounce.500ms="setNote" id="note" autocomplete="street-address" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"></textarea>
+                            @error('setNote') <span class="text-sm text-red-700">{{ $message }}</span> @enderror
+                        </div>
+                    </div>
+                </x-slot>
+                <x-slot name="footer">
+                    <div class="sm:flex sm:flex-row-reverse justify-between">
+                        <button wire:click.prevent="submitUpdateRecord()" type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none sm:w-auto sm:text-sm">
+                            Update Record
+                        </button>
+                        <button wire:click="$set('updateRecordModalStatus', false)" type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none sm:mt-0 sm:w-auto sm:text-sm">
                             Cancel
                         </button>
                     </div>
