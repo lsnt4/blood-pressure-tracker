@@ -225,13 +225,11 @@ class Dashboard extends Component
         $this->currentProfileId = $currentProfileId;
 
         $profile = Profile::where('id', $this->currentProfileId)->first();
-
-        $this->currentProfileName = $profile->name;
-        $this->currentProfileGender = $profile->gender;
-        $this->currentProfileAge = $profile->age;
-
+        
         if ($profile) {
-            $this->profileName = $profile->name;
+            $this->currentProfileName = $profile->name;
+            $this->currentProfileGender = $profile->gender;
+            $this->currentProfileAge = $profile->age;
         } else {
             $this->profileName = 'All Profiles';
         }
