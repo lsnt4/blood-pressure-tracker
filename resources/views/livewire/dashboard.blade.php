@@ -36,7 +36,7 @@
     </x-slot>
     <div class="py-12">
         <div class="max-w-7xl mx-auto px-6 lg:px-8">
-            <div class="flex justify-between items-center mb-5">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-5 gap-1">
                 <!-- Left controls -->
                 <div x-data="{ open: false }" class="relative inline-block text-left">
                     <div class="flex">
@@ -80,9 +80,10 @@
                     </div>
                 </div>
                 <!-- Right controls -->
-                <div class="">
+                <div class="flex gap-1">
                     @if($currentProfileId)
-                    <button wire:click.prevent="$set('addRecordModalStatus', true)" class="bg-green-600 text-gray-100 px-6 py-2 rounded-md border border-gray-400 shadow-sm">Add Record</button>
+                    <button wire:click.prevent="setCurrentProfile({{ '' }})" class="bg-gray-600 text-sm text-gray-100 px-6 py-2 rounded-md border border-gray-400 shadow-sm">View All Records</button>
+                    <button wire:click.prevent="$set('addRecordModalStatus', true)" class="bg-green-600 text-sm text-gray-100 px-6 py-2 rounded-md border border-gray-400 shadow-sm">Add Record</button>
                     @endif
                 </div>
             </div>
@@ -190,7 +191,8 @@
                         <div class="col-span-3">
                             <label for="gender" class="block text-sm font-medium text-gray-700">Gender</label>
                             <select id="gender" wire:model.debounce.500ms="gender" autocomplete="gender" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                <option value="male" selected>Male</option>
+                                <option value=""></option>
+                                <option value="male">Male</option>
                                 <option value="female">Female</option>
                                 <option value="other">Other</option>
                             </select>
@@ -295,7 +297,7 @@
                             <input type="number" min="0" max="350" wire:model.debounce.500ms="pulse" id="pulse" placeholder="72" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                             @error('pulse') <span class="text-sm text-red-700">{{ $message }}</span> @enderror
                         </div>
-                        <div class="col-span-1">
+                        <div class="col-span-2">
                             <label for="is_irregular_hb" class="block text-sm font-medium text-gray-700"><abbr title="Irregular Heart Beat">IHB</abbr></label>
                             <select id="is_irregular_hb" wire:model.debounce.500ms="is_irregular_hb" autocomplete="location" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                 <option value="0">No</option>
@@ -304,17 +306,17 @@
                             </select>
                             @error('is_irregular_hb') <span class="text-sm text-red-700">{{ $message }}</span> @enderror
                         </div>
-                        <div class="col-span-1">
+                        <div class="col-span-2">
                             <label for="pp" class="block text-sm font-medium text-gray-700"><abbr title="Pulse Pressure">PP</abbr></label>
                             <input type="number" min="0" max="350" wire:model.debounce.500ms="pulse_pressure" id="pp" autocomplete="given-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                             @error('pulse_pressure') <span class="text-sm text-red-700">{{ $message }}</span> @enderror
                         </div>
-                        <div class="col-span-1">
+                        <div class="col-span-2">
                             <label for="map" class="block text-sm font-medium text-gray-700"><abbr title="Mean Arterial Pressure">MAP</abbr></label>
                             <input type="number" min="0" max="180" wire:model.debounce.500ms="mean_arterial_pressure" id="map" autocomplete="family-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                             @error('mean_arterial_pressure') <span class="text-sm text-red-700">{{ $message }}</span> @enderror
                         </div>
-                        <div class="col-span-1">
+                        <div class="col-span-3">
                             <label for="location" class="block text-sm font-medium text-gray-700">Location</label>
                             <select id="location" wire:model.debounce.500ms="location" autocomplete="location" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                 <option value="left">Left</option>
@@ -323,7 +325,7 @@
                             </select>
                             @error('location') <span class="text-sm text-red-700">{{ $message }}</span> @enderror
                         </div>
-                        <div class="col-span-2">
+                        <div class="col-span-3">
                             <label for="posture" class="block text-sm font-medium text-gray-700">Posture</label>
                             <select id="posture" wire:model.debounce.500ms="posture" autocomplete="posture" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                 <option value="seated">Seated</option>
@@ -332,7 +334,7 @@
                             </select>
                             @error('posture') <span class="text-sm text-red-700">{{ $message }}</span> @enderror
                         </div>
-                        <div class="col-span-2">
+                        <div class="col-span-6">
                             <label for="created_at" class="block text-sm font-medium text-gray-700">Created At</label>
                             <input type="text" wire:model.debounce.500ms="created_at" id="created_at" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                             @error('created_at') <span class="text-sm text-red-700">{{ $message }}</span> @enderror
@@ -379,7 +381,7 @@
                             <input type="number" min="0" max="350" wire:model.debounce.500ms="setPulse" id="pulse" placeholder="72" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                             @error('setPulse') <span class="text-sm text-red-700">{{ $message }}</span> @enderror
                         </div>
-                        <div class="col-span-1">
+                        <div class="col-span-2">
                             <label for="is_irregular_hb" class="block text-sm font-medium text-gray-700"><abbr title="Irregular Heart Beat">IHB</abbr></label>
                             <select id="is_irregular_hb" wire:model.debounce.500ms="setIsIrregularHb" autocomplete="location" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                 <option value="0">No</option>
@@ -388,17 +390,17 @@
                             </select>
                             @error('setIsIrregularHb') <span class="text-sm text-red-700">{{ $message }}</span> @enderror
                         </div>
-                        <div class="col-span-1">
+                        <div class="col-span-2">
                             <label for="pp" class="block text-sm font-medium text-gray-700"><abbr title="Pulse Pressure">PP</abbr></label>
                             <input type="number" min="0" max="350" wire:model.debounce.500ms="setPulsePressure" id="pp" autocomplete="given-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                             @error('setPulsePressure') <span class="text-sm text-red-700">{{ $message }}</span> @enderror
                         </div>
-                        <div class="col-span-1">
+                        <div class="col-span-2">
                             <label for="map" class="block text-sm font-medium text-gray-700"><abbr title="Mean Arterial Pressure">MAP</abbr></label>
                             <input type="number" min="0" max="180" wire:model.debounce.500ms="setMeanArterialPressure" id="map" autocomplete="family-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                             @error('setMeanArterialPressure') <span class="text-sm text-red-700">{{ $message }}</span> @enderror
                         </div>
-                        <div class="col-span-1">
+                        <div class="col-span-3">
                             <label for="location" class="block text-sm font-medium text-gray-700">Location</label>
                             <select id="location" wire:model.debounce.500ms="setLocation" autocomplete="location" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                 <option value="left">Left</option>
@@ -407,7 +409,7 @@
                             </select>
                             @error('setLocation') <span class="text-sm text-red-700">{{ $message }}</span> @enderror
                         </div>
-                        <div class="col-span-2">
+                        <div class="col-span-3">
                             <label for="posture" class="block text-sm font-medium text-gray-700">Posture</label>
                             <select id="posture" wire:model.debounce.500ms="setPosture" autocomplete="posture" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                 <option value="seated">Seated</option>
@@ -416,7 +418,7 @@
                             </select>
                             @error('setPosture') <span class="text-sm text-red-700">{{ $message }}</span> @enderror
                         </div>
-                        <div class="col-span-2">
+                        <div class="col-span-6">
                             <label for="created_at" class="block text-sm font-medium text-gray-700">Created At</label>
                             <input type="text" wire:model.debounce.500ms="setCreatedAt" id="created_at" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                             @error('setCreatedAt') <span class="text-sm text-red-700">{{ $message }}</span> @enderror
