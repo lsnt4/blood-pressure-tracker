@@ -35,13 +35,13 @@
         </div>
     </x-slot>
     <div class="py-12">
-        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto px-4 lg:px-8">
             <div class="flex flex-col md:flex-row justify-between items-center mb-5 gap-1">
                 <!-- Left controls -->
                 <div x-data="{ open: false }" class="relative inline-block text-left">
                     <div class="flex">
                         <button @click="open = !open" type="button" class="inline-flex justify-center items-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none">
-                            <span>{{ $currentProfileName ?? 'All Profiles' }}</span>
+                            <span class="truncate">{{ $currentProfileName ?? 'All Profiles' }}</span>
                             <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                 <path fill-rule="evenodd" d="M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
                             </svg>
@@ -91,7 +91,7 @@
                 <!-- Records table -->
                 <div class="overflow-x-auto">
                     <div class="border border-t-2 border-gray-100 align-middle inline-block min-w-full">
-                        <table wire:loading.class="opacity-25" wire:target="checkout" class="min-w-full divide-y divide-gray-200">
+                        <table wire:loading.class="opacity-75" class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-200">
                                 <tr>
                                     <th
@@ -131,7 +131,7 @@
                                                 <div class="bg-gray-200 rounded-full text-3xl p-2">👱</div>
                                                 @endif
                                                 <div class="ml-4">
-                                                    <div class="text-sm leading-5 font-medium text-gray-900">
+                                                    <div class="text-sm leading-5 font-medium text-gray-900 truncate">
                                                         {{ $record->profile->name }}
                                                     </div>
                                                 </div>
@@ -147,7 +147,7 @@
                                             <div class="text-sm leading-5 text-gray-900">{{ $record->pulse }}</div>
                                         </td>
                                         <td class="px-6 py-4 whitespace-no-wrap text-right">
-                                            <div class="text-sm leading-5 text-gray-900" title="{{ $record->created_at }}">{{ $record->created_at->diffForHumans(['parts' => 2]) }}</div>
+                                            <div class="text-sm leading-5 text-gray-900 truncate" title="{{ $record->created_at }}">{{ $record->created_at->diffForHumans(['parts' => 2]) }}</div>
                                         </td>
                                         <td
                                             class="px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
