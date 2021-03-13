@@ -11,11 +11,15 @@ class Dashboard extends Component
 {
     use WithPagination;
 
+    public $name;
+    public $gender;
+    public $age;
+
     public $profileId;
     public $profileName;
-    public $toggleAddRecordModalStatus;
-    public $toggleAddProfileModalStatus;
-    public $toggleRemoveProfileModalStatus;
+    public $addRecordModalStatus;
+    public $addProfileModalStatus;
+    public $removeProfileModalStatus;
 
     protected $rules = [
         'name' => 'required|min:2|max:32',
@@ -36,7 +40,7 @@ class Dashboard extends Component
     {
         $profileId = $this->profileId;
 
-        $profiles = Profile::select('id', 'name')->where('owner_id', auth()->id())->get();
+        $profiles = Profile::select('id', 'name')->where('owner_id', auth()->id())->latest()->get();
         $records = Record::whereIn('profile_id', function ($query) {
                 $query->select('id')->from('profiles')
                     ->where('owner_id', auth()->id());
@@ -56,24 +60,29 @@ class Dashboard extends Component
 
     public function mount()
     {
-        $this->toggleAddRecordModalStatus = false;
-        $this->toggleAddProfileModalStatus = false;
-        $this->toggleRemoveProfileModalStatus = false;
+        $this->addRecordModalStatus = false;
+        $this->addProfileModalStatus = false;
+        $this->removeProfileModalStatus = false;
     }
 
-    public function toggleAddRecordModal()
+    public function submitProfile()
     {
-        $this->toggleAddRecordModalStatus = !$this->toggleAddRecordModalStatus;
-    }
+        $validatedData = $this->validate([
+            'name' => 'required|min:2|max:32|regex:/^[a-zA-Z\s]*$/',
+            'gender' => 'required|in:male,female,other',
+            'age' => 'required|numeric|digits_between:0,180'
+        ]);
 
-    public function toggleAddProfileModal()
-    {
-        $this->toggleAddProfileModalStatus = !$this->toggleAddProfileModalStatus;
-    }
+        $profile = new Profile();
+        $profile->owner_id = auth()->id();
+        $profile->name = $this->name;
+        $profile->gender = $this->gender;
+        $profile->age = $this->age;
+        $profile->save();
 
-    public function toggleRemoveProfileModal()
-    {
-        $this->toggleRemoveProfileModalStatus = !$this->toggleRemoveProfileModalStatus;
+        $this->reset();
+
+        $this->setCurrentProfile($profile->id);
     }
 
     public function setCurrentProfile($profileId = null)
@@ -85,14 +94,15 @@ class Dashboard extends Component
         if ($profile) {
             $this->profileName = $profile->name;
         } else {
-            $this->profileName = 'All';
+            $this->profileName = 'All Profiles';
         }
+
         $this->gotoPage(1);
     }
 
-    public function removeProfile($profileId)
+    public function removeCurrentProfile()
     {
-        Profile::where('id', $profileId)->first()->delete();
+        Profile::where('id', $this->profileId)->first()->delete();
         $this->reset();
     }
 }

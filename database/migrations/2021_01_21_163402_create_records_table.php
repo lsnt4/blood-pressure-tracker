@@ -16,9 +16,9 @@ class CreateRecordsTable extends Migration
         Schema::create('records', function (Blueprint $table) {
             $table->id();
             $table->foreignId('profile_id')->constrained('profiles')->onDelete('cascade')->onUpdate('cascade');
-            $table->decimal('systole', 5, 2);
-            $table->decimal('diastole', 5, 2);
-            $table->decimal('pulse', 5, 2);
+            $table->unsignedInteger('systole');
+            $table->unsignedInteger('diastole');
+            $table->unsignedInteger('pulse');
             $table->boolean('is_irregular_hb')->nullable();
             $table->decimal('pulse_pressure', 5, 2)->nullable();
             $table->decimal('mean_arterial_pressure', 5, 2)->nullable();
