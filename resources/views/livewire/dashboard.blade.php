@@ -46,10 +46,29 @@
                                 <path fill-rule="evenodd" d="M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
                             </svg>
                         </button>
-                        @if($profileId)
-                        <button wire:click.prevent="$set('removeProfileModalStatus', true)" class="text-gray-200 font-bold bg-red-600 ml-1 px-4 py-2 rounded-md border border-gray-400 shadow-sm">-</button>
+                        @if($currentProfileId)
+                        <button wire:click.prevent="$set('removeProfileModalStatus', true)" class="text-gray-200 font-bold bg-red-600 ml-1 px-4 py-2 rounded-md border border-gray-400 shadow-sm">
+                            <div class="w-5">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                </svg>
+                            </div>
+                        </button>
+                        <button wire:click.prevent="$set('updateProfileModalStatus', true)" class="text-gray-200 font-bold bg-yellow-700 ml-1 px-4 py-2 rounded-md border border-gray-400 shadow-sm">
+                            <div class="w-5">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                </svg>
+                            </div>
+                        </button>
                         @endif
-                        <button wire:click.prevent="$set('addProfileModalStatus', true)" class="text-gray-200 font-bold bg-green-600 ml-1 px-4 py-2 rounded-md border border-gray-400 shadow-sm">+</button>
+                        <button wire:click.prevent="$set('addProfileModalStatus', true)" class="text-gray-200 font-bold bg-green-600 ml-1 px-4 py-2 rounded-md border border-gray-400 shadow-sm">
+                            <div class="w-5">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+                                </svg>
+                            </div>
+                        </button>
                     </div>
                     <div :class="{'block': open, 'hidden': !open}"  @click="open = false" @click.away="open = false" class="origin-top-left absolute left-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden">
                         <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
@@ -62,7 +81,7 @@
                 </div>
                 <!-- Right controls -->
                 <div class="">
-                    @if($profileId)
+                    @if($currentProfileId)
                     <button wire:click.prevent="$set('addRecordModalStatus', true)" class="bg-green-600 text-gray-100 px-6 py-2 rounded-md border border-gray-400 shadow-sm">Add Record</button>
                     @endif
                 </div>
@@ -190,6 +209,47 @@
                 </x-slot>
             </x-jet-dialog-modal>
 
+            <!-- Update profile modal -->
+            <x-jet-dialog-modal wire:model="updateProfileModalStatus">
+                <x-slot name="title">
+                    {{ __('Update Profile') }}
+                </x-slot>
+                <x-slot name="content">
+                    <!-- Form -->
+                    <div class="grid grid-cols-6 gap-6 my-8">
+                        <div class="col-span-6">
+                            <label for="name" class="block text-sm font-medium text-gray-700">Name*</label>
+                            <input type="text" wire:model.debounce.500ms="currentProfileName" id="name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            @error('currentProfileName') <span class="text-sm text-red-700">{{ $message }}</span> @enderror
+                        </div>
+                        <div class="col-span-3">
+                            <label for="gender" class="block text-sm font-medium text-gray-700">Gender</label>
+                            <select id="gender" wire:model.debounce.500ms="currentProfileGender" autocomplete="gender" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                <option value="male" selected>Male</option>
+                                <option value="female">Female</option>
+                                <option value="other">Other</option>
+                            </select>
+                            @error('currentProfileGender') <span class="text-sm text-red-700">{{ $message }}</span> @enderror
+                        </div>
+                        <div class="col-span-3">
+                            <label for="age" class="block text-sm font-medium text-gray-700">Age*</label>
+                            <input type="number" min="0" max="180" wire:model.debounce.500ms="currentProfileAge" id="age" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            @error('currentProfileAge') <span class="text-sm text-red-700">{{ $message }}</span> @enderror
+                        </div>
+                    </div>
+                </x-slot>
+                <x-slot name="footer">
+                    <div class="sm:flex sm:flex-row-reverse justify-between">
+                        <button wire:click.prevent="submitUpdateProfile()" type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none sm:w-auto sm:text-sm">
+                            Update Profile
+                        </button>
+                        <button wire:click="$set('addProfileModalStatus', false)" type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none sm:mt-0 sm:w-auto sm:text-sm">
+                            Cancel
+                        </button>
+                    </div>
+                </x-slot>
+            </x-jet-dialog-modal>
+
             <!-- Remove profile modal -->
             <x-jet-confirmation-modal wire:model="removeProfileModalStatus">
                 <x-slot name="title">
@@ -200,7 +260,7 @@
                 </x-slot>
                 <x-slot name="footer">
                     <button wire:click.prevent="$set('removeProfileModalStatus', false)" type="button" class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none sm:mt-0 sm:w-auto sm:text-sm">Cancel</button>
-                    @if($profileId)
+                    @if($currentProfileId)
                     <button wire:click.prevent="removeCurrentProfile()" type="button" class="rounded-md border border-red-500 shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none sm:mt-0 sm:w-auto sm:text-sm">Delete</button>
                     @endif
                 </x-slot>

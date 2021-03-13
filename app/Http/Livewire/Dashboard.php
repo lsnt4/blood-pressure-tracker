@@ -25,10 +25,14 @@ class Dashboard extends Component
     public $posture;
     public $note;
 
-    public $profileId;
+    public $currentProfileId;
+    public $currentProfileName;
+    public $currentProfileGender;
+    public $currentProfileAge;
     public $profileName;
     public $addRecordModalStatus;
     public $addProfileModalStatus;
+    public $updateProfileModalStatus;
     public $removeProfileModalStatus;
 
     protected $rules = [
@@ -48,15 +52,15 @@ class Dashboard extends Component
 
     public function render()
     {
-        $profileId = $this->profileId;
+        $currentProfileId = $this->currentProfileId;
 
         $profiles = Profile::select('id', 'name')->where('owner_id', auth()->id())->latest()->get();
         $records = Record::whereIn('profile_id', function ($query) {
                 $query->select('id')->from('profiles')
                     ->where('owner_id', auth()->id());
             })
-            ->when($profileId != '', function ($query) use ($profileId) {
-                $query->where('profile_id', $profileId);
+            ->when($currentProfileId != '', function ($query) use ($currentProfileId) {
+                $query->where('profile_id', $currentProfileId);
             })
             ->latest()
             ->paginate(10);
@@ -72,6 +76,7 @@ class Dashboard extends Component
     {
         $this->addRecordModalStatus = false;
         $this->addProfileModalStatus = false;
+        $this->updateProfileModalStatus = false;
         $this->removeProfileModalStatus = false;
     }
 
@@ -95,6 +100,31 @@ class Dashboard extends Component
         $this->setCurrentProfile($profile->id);
     }
 
+    public function submitUpdateProfile()
+    {
+        $validatedData = $this->validate([
+            'currentProfileName' => 'required|min:2|max:32|regex:/^[a-zA-Z\s]*$/',
+            'currentProfileGender' => 'required|in:male,female,other',
+            'currentProfileAge' => 'required|numeric|digits_between:0,180',
+        ], [
+        ], [
+            'currentProfileName' => 'name',
+            'currentProfileGender' => 'gender',
+            'currentProfileAge' => 'age',
+        ]);
+
+        $profile = Profile::find($this->currentProfileId);
+        $profile->owner_id = auth()->id();
+        $profile->name = $this->currentProfileName;
+        $profile->gender = $this->currentProfileGender;
+        $profile->age = $this->currentProfileAge;
+        $profile->update();
+
+        $this->reset();
+
+        $this->setCurrentProfile($profile->id);
+    }
+
     public function submitRecord()
     {
         $validatedData = $this->validate([
@@ -110,7 +140,7 @@ class Dashboard extends Component
         ]);
 
         $record = new Record();
-        $record->profile_id = $this->profileId;
+        $record->profile_id = $this->currentProfileId;
         $record->systole = $this->systole;
         $record->diastole = $this->diastole;
         $record->pulse = $this->pulse;
@@ -127,11 +157,15 @@ class Dashboard extends Component
         $this->setCurrentProfile($record->profile->id);
     }
 
-    public function setCurrentProfile($profileId = null)
+    public function setCurrentProfile($currentProfileId = null)
     {
-        $this->profileId = $profileId;
+        $this->currentProfileId = $currentProfileId;
 
-        $profile = Profile::where('id', $this->profileId)->first();
+        $profile = Profile::where('id', $this->currentProfileId)->first();
+
+        $this->currentProfileName = $profile->name;
+        $this->currentProfileGender = $profile->gender;
+        $this->currentProfileAge = $profile->age;
 
         if ($profile) {
             $this->profileName = $profile->name;
@@ -144,7 +178,7 @@ class Dashboard extends Component
 
     public function removeCurrentProfile()
     {
-        Profile::where('id', $this->profileId)->first()->delete();
+        Profile::where('id', $this->currentProfileId)->first()->delete();
         $this->reset();
     }
 }
