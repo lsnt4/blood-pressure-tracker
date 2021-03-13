@@ -25,6 +25,7 @@ class CreateRecordsTable extends Migration
             $table->string('location', 32)->nullable();
             $table->string('posture', 32)->nullable();
             $table->text('note')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

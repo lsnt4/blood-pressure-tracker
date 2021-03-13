@@ -19,6 +19,7 @@ class CreateProfilesTable extends Migration
             $table->string('name', 32);
             $table->enum('gender', ['male', 'female', 'other']);
             $table->unsignedInteger('age');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
