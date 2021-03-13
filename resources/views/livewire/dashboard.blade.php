@@ -120,7 +120,7 @@
                                 @if (count($records))
                                     @foreach ($records as $record)
                                     <tr class="hover:bg-gray-100 transition duration-75">
-                                        <td class="px-6 py-4 whitespace-no-wrap">
+                                        <td class="px-6 py-4 whitespace-no-wrap cursor-pointer" wire:click.prevent="setCurrentProfile({{ $record->profile->id }})">
                                             <div class="flex items-center">
                                                 @if ($record->profile->gender == 'male')
                                                 <div class="bg-blue-200 rounded-full text-3xl p-2">👨</div>
@@ -332,6 +332,11 @@
                             </select>
                             @error('posture') <span class="text-sm text-red-700">{{ $message }}</span> @enderror
                         </div>
+                        <div class="col-span-2">
+                            <label for="created_at" class="block text-sm font-medium text-gray-700">Created At</label>
+                            <input type="text" wire:model.debounce.500ms="created_at" id="created_at" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            @error('created_at') <span class="text-sm text-red-700">{{ $message }}</span> @enderror
+                        </div>
                         <div class="col-span-6">
                             <label for="note" class="block text-sm font-medium text-gray-700">Note</label>
                             <textarea type="text" wire:model.debounce.500ms="note" id="note" autocomplete="street-address" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"></textarea>
@@ -410,6 +415,11 @@
                                 <option value="other">Other</option>
                             </select>
                             @error('setPosture') <span class="text-sm text-red-700">{{ $message }}</span> @enderror
+                        </div>
+                        <div class="col-span-2">
+                            <label for="created_at" class="block text-sm font-medium text-gray-700">Created At</label>
+                            <input type="text" wire:model.debounce.500ms="setCreatedAt" id="created_at" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            @error('setCreatedAt') <span class="text-sm text-red-700">{{ $message }}</span> @enderror
                         </div>
                         <div class="col-span-6">
                             <label for="note" class="block text-sm font-medium text-gray-700">Note</label>

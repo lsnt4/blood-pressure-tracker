@@ -24,6 +24,7 @@ class Dashboard extends Component
     public $location;
     public $posture;
     public $note;
+    public $created_at;
 
     public $setRecordId;
     public $setProfileId;
@@ -36,12 +37,12 @@ class Dashboard extends Component
     public $setLocation;
     public $setPosture;
     public $setNote;
+    public $setCreatedAt;
 
     public $currentProfileId;
     public $currentProfileName;
     public $currentProfileGender;
     public $currentProfileAge;
-    public $profileName;
 
     public $addRecordModalStatus;
     public $addProfileModalStatus;
@@ -152,6 +153,7 @@ class Dashboard extends Component
             'location' => 'nullable',
             'posture' => 'nullable',
             'note' => 'nullable',
+            'created_at' => 'nullable',
         ]);
 
         $record = new Record();
@@ -165,6 +167,7 @@ class Dashboard extends Component
         $record->location = $this->location;
         $record->posture = $this->posture;
         $record->note = $this->note;
+        $record->created_at = $this->created_at;
         $record->save();
 
         $this->reset();
@@ -187,6 +190,7 @@ class Dashboard extends Component
         $this->setLocation = $record->location;
         $this->setPosture = $record->posture;
         $this->setNote = $record->note;
+        $this->setCreatedAt = $record->created_at->format('Y-m-d H:i:s');
 
         $this->updateRecordModalStatus = true;
     }
@@ -203,6 +207,7 @@ class Dashboard extends Component
             'setLocation' => 'nullable',
             'setPosture' => 'nullable',
             'setNote' => 'nullable',
+            'setCreatedAt' => 'nullable',
         ]);
 
         $record = Record::find($this->setRecordId);
@@ -215,9 +220,12 @@ class Dashboard extends Component
         $record->location = $this->setLocation;
         $record->posture = $this->setPosture;
         $record->note = $this->setNote;
+        $record->created_at = $this->setCreatedAt;
         $record->update();
 
         $this->reset();
+
+        $this->setCurrentProfile($record->profile->id);
     }
 
     public function setCurrentProfile($currentProfileId = null)
@@ -231,8 +239,10 @@ class Dashboard extends Component
             $this->currentProfileGender = $profile->gender;
             $this->currentProfileAge = $profile->age;
         } else {
-            $this->profileName = 'All Profiles';
+            $this->currentProfileName = 'All Profiles';
         }
+
+        $this->created_at = now()->format('Y-m-d H:i:s');
 
         $this->gotoPage(1);
     }
