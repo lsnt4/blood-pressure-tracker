@@ -15,7 +15,7 @@ class CreateRecordsTable extends Migration
     {
         Schema::create('records', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('profile_id')->constrained('profiles')->onDeleteCascade()->onUpdateCascade();
+            $table->foreignId('profile_id')->constrained('profiles')->onDelete('cascade')->onUpdate('cascade');
             $table->decimal('systole', 5, 2);
             $table->decimal('diastole', 5, 2);
             $table->decimal('pulse', 5, 2);

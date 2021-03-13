@@ -15,6 +15,7 @@ class Dashboard extends Component
     public $profileName;
     public $toggleAddRecordModalStatus;
     public $toggleAddProfileModalStatus;
+    public $toggleRemoveProfileModalStatus;
 
     protected $rules = [
         'name' => 'required|min:2|max:32',
@@ -57,6 +58,7 @@ class Dashboard extends Component
     {
         $this->toggleAddRecordModalStatus = false;
         $this->toggleAddProfileModalStatus = false;
+        $this->toggleRemoveProfileModalStatus = false;
     }
 
     public function toggleAddRecordModal()
@@ -67,6 +69,11 @@ class Dashboard extends Component
     public function toggleAddProfileModal()
     {
         $this->toggleAddProfileModalStatus = !$this->toggleAddProfileModalStatus;
+    }
+
+    public function toggleRemoveProfileModal()
+    {
+        $this->toggleRemoveProfileModalStatus = !$this->toggleRemoveProfileModalStatus;
     }
 
     public function setCurrentProfile($profileId = null)
@@ -83,8 +90,9 @@ class Dashboard extends Component
         $this->gotoPage(1);
     }
 
-    public function updatingProfileId()
+    public function removeProfile($profileId)
     {
-        $this->resetPage();
+        Profile::where('id', $profileId)->first()->delete();
+        $this->reset();
     }
 }

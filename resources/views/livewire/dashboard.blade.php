@@ -45,8 +45,10 @@
                                 <path fill-rule="evenodd" d="M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
                             </svg>
                         </button>
-                        <button wire:click.prevent="toggleAddProfileModal" class="text-gray-200 font-bold bg-red-600 mx-1 py-2 px-4 rounded-md">-</button>
-                        <button wire:click.prevent="toggleAddProfileModal" class="text-gray-200 font-bold bg-blue-700 mx-1 py-2 px-4 rounded-md">+</button>
+                        @if($profileId)
+                        <button wire:click.prevent="toggleRemoveProfileModal" class="text-gray-200 font-bold bg-red-600 mx-1 py-2 px-4 rounded-md">-</button>
+                        @endif
+                        <button wire:click.prevent="toggleAddProfileModal" class="text-gray-200 font-bold bg-green-600 mx-1 py-2 px-4 rounded-md">+</button>
                     </div>
                     <div :class="{'block': open, 'hidden': !open}"  @click="open = false" @click.away="open = false" class="origin-top-left absolute left-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
                         <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
@@ -93,42 +95,46 @@
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
-                                @foreach ($records as $record)
-                                <tr class="hover:bg-gray-100 transition duration-75">
-                                    <td class="px-6 py-4 whitespace-no-wrap">
-                                        <div class="flex items-center">
-                                            @if ($record->profile->gender == 'male')
-                                            <div class="bg-blue-200 rounded-full text-3xl p-2">👨</div>
-                                            @elseif($record->profile->gender == 'female')
-                                            <div class="bg-pink-200 rounded-full text-3xl p-2">👩</div>
-                                            @else
-                                            <div class="bg-gray-200 rounded-full text-3xl p-2">👱</div>
-                                            @endif
-                                            <div class="ml-4">
-                                                <div class="text-sm leading-5 font-medium text-gray-900">
-                                                    {{ $record->profile->name }}
+                                @if (count($profiles))
+                                    @foreach ($records as $record)
+                                    <tr class="hover:bg-gray-100 transition duration-75">
+                                        <td class="px-6 py-4 whitespace-no-wrap">
+                                            <div class="flex items-center">
+                                                @if ($record->profile->gender == 'male')
+                                                <div class="bg-blue-200 rounded-full text-3xl p-2">👨</div>
+                                                @elseif($record->profile->gender == 'female')
+                                                <div class="bg-pink-200 rounded-full text-3xl p-2">👩</div>
+                                                @else
+                                                <div class="bg-gray-200 rounded-full text-3xl p-2">👱</div>
+                                                @endif
+                                                <div class="ml-4">
+                                                    <div class="text-sm leading-5 font-medium text-gray-900">
+                                                        {{ $record->profile->name }}
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-no-wrap">
-                                        <div class="text-sm leading-5 text-gray-900">{{ $record->systole }}</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-no-wrap">
-                                        <div class="text-sm leading-5 text-gray-900">{{ $record->diastole }}</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
-                                        <div class="text-sm leading-5 text-gray-900">{{ $record->pulse }}</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
-                                        <div class="text-sm leading-5 text-gray-900" title="{{ $record->created_at }}">{{ $record->created_at->diffForHumans(['parts' => 2]) }}</div>
-                                    </td>
-                                    <td
-                                        class="px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
-                                        <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
-                                    </td>
-                                </tr>
-                                @endforeach
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-no-wrap">
+                                            <div class="text-sm leading-5 text-gray-900">{{ $record->systole }}</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-no-wrap">
+                                            <div class="text-sm leading-5 text-gray-900">{{ $record->diastole }}</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+                                            <div class="text-sm leading-5 text-gray-900">{{ $record->pulse }}</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+                                            <div class="text-sm leading-5 text-gray-900" title="{{ $record->created_at }}">{{ $record->created_at->diffForHumans(['parts' => 2]) }}</div>
+                                        </td>
+                                        <td
+                                            class="px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
+                                            <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                @else
+                                    <tr><td class="text-center text-gray-600 py-5" colspan="6">No records found</td></tr>
+                                @endif
                             </tbody>
                         </table>
                     </div>
@@ -175,6 +181,22 @@
                     </div>
                 </x-slot>
             </x-jet-dialog-modal>
+
+            <!-- Remove profile modal -->
+            <x-jet-confirmation-modal wire:model="toggleRemoveProfileModalStatus">
+            <x-slot name="title">
+                    Profile Delete
+                </x-slot>
+                <x-slot name="content">
+                    Are you sure you need to delete <strong>{{ $profileName }}</strong>'s profile? All related records will be permanently deleted and will not be able to recover.
+                </x-slot>
+                <x-slot name="footer">
+                    <button wire:click.prevent="toggleRemoveProfileModal()" type="button" class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none sm:mt-0 sm:w-auto sm:text-sm">Cancel</button>
+                    @if($profileId)
+                    <button wire:click.prevent="removeProfile({{ $profile->id }})" type="button" class="rounded-md border border-red-500 shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none sm:mt-0 sm:w-auto sm:text-sm">Delete</button>
+                    @endif
+                </x-slot>
+            </x-jet-confirmation-modal>
 
             <!-- Add record modal -->
             <x-jet-dialog-modal wire:model="toggleAddRecordModalStatus">

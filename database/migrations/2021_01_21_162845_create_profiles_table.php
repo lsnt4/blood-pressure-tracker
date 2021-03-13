@@ -15,7 +15,7 @@ class CreateProfilesTable extends Migration
     {
         Schema::create('profiles', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('owner_id')->constrained('users')->onDeleteCascade()->onUpdateCascade();
+            $table->foreignId('owner_id')->constrained('users')->onDelete('cascade')->onUpdate('cascade');
             $table->string('name', 32);
             $table->enum('gender', ['male', 'female', 'other']);
             $table->unsignedInteger('age');
