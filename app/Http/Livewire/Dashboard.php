@@ -33,11 +33,18 @@ class Dashboard extends Component
 
     public function render()
     {
+        $profileId = $this->profileId;
+
         $profiles = Profile::select('id', 'name')->where('owner_id', auth()->id())->get();
         $records = Record::whereIn('profile_id', function ($query) {
-            $query->select('id')->from('profiles')
-                ->where('owner_id', auth()->id());
-        })->paginate(10);
+                $query->select('id')->from('profiles')
+                    ->where('owner_id', auth()->id());
+            })
+            ->when($profileId != '', function ($query) use ($profileId) {
+                $query->where('profile_id', $profileId);
+            })
+            ->latest()
+            ->paginate(10);
 
         return view('livewire.dashboard', [
                 'profiles' => $profiles,
@@ -62,10 +69,22 @@ class Dashboard extends Component
         $this->toggleAddProfileModalStatus = !$this->toggleAddProfileModalStatus;
     }
 
-    public function setCurrentProfile($profileId)
+    public function setCurrentProfile($profileId = null)
     {
         $this->profileId = $profileId;
 
-        $this->profileName = Profile::find($this->profileId)->first()->name;
+        $profile = Profile::where('id', $this->profileId)->first();
+
+        if ($profile) {
+            $this->profileName = $profile->name;
+        } else {
+            $this->profileName = 'All';
+        }
+        $this->gotoPage(1);
+    }
+
+    public function updatingProfileId()
+    {
+        $this->resetPage();
     }
 }
