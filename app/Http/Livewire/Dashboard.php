@@ -78,7 +78,7 @@ class Dashboard extends Component
                 $query->where('profile_id', $currentProfileId);
             })
             ->latest()
-            ->paginate(10);
+            ->paginate(25);
 
         return view('livewire.dashboard', [
                 'profiles' => $profiles,
