@@ -91,7 +91,7 @@
                 <!-- Records table -->
                 <div class="overflow-x-auto">
                     <div class="border border-t-2 border-gray-100 align-middle inline-block min-w-full">
-                        <table wire:loading.class="opacity-75" class="min-w-full divide-y divide-gray-200">
+                        <table class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-200">
                                 <tr>
                                     <th
@@ -173,6 +173,13 @@
             </div>
             <div class="mt-8">
                 {{ $records->links('paginator') }}
+            </div>
+
+            <div wire:loading.class.remove="hidden" class="hidden fixed flex inset-0 justify-center items-center" style="z-index:100;">
+                <div class="fixed inset-0 bg-black opacity-25"></div>
+                <div class="text-white font-bold bg-gray-700 inline-block px-8 py-3 rounded-md">
+                    Loading...
+                </div>
             </div>
 
             <!-- Add profile modal -->
