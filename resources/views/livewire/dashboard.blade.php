@@ -192,12 +192,12 @@
                     <div class="grid grid-cols-6 gap-6 my-8">
                         <div class="col-span-6">
                             <label for="name" class="block text-sm font-medium text-gray-700">Name*</label>
-                            <input type="text" wire:model.lazy="name" id="name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <input type="text" wire:model.defer="name" id="name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                             @error('name') <span class="text-sm text-red-700">{{ $message }}</span> @enderror
                         </div>
                         <div class="col-span-3">
                             <label for="gender" class="block text-sm font-medium text-gray-700">Gender</label>
-                            <select id="gender" wire:model.lazy="gender" autocomplete="gender" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <select id="gender" wire:model.defer="gender" autocomplete="gender" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                 <option value=""></option>
                                 <option value="male">Male</option>
                                 <option value="female">Female</option>
@@ -207,7 +207,7 @@
                         </div>
                         <div class="col-span-3">
                             <label for="age" class="block text-sm font-medium text-gray-700">Age*</label>
-                            <input type="number" min="0" max="180" wire:model.lazy.debounce.1s="age" id="age" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <input type="number" min="0" max="180" wire:model.defer="age" id="age" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                             @error('age') <span class="text-sm text-red-700">{{ $message }}</span> @enderror
                         </div>
                     </div>
@@ -234,12 +234,12 @@
                     <div class="grid grid-cols-6 gap-6 my-8">
                         <div class="col-span-6">
                             <label for="name" class="block text-sm font-medium text-gray-700">Name*</label>
-                            <input type="text" wire:model.lazy="currentProfileName" id="name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <input type="text" wire:model.defer="currentProfileName" id="name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                             @error('currentProfileName') <span class="text-sm text-red-700">{{ $message }}</span> @enderror
                         </div>
                         <div class="col-span-3">
                             <label for="gender" class="block text-sm font-medium text-gray-700">Gender</label>
-                            <select id="gender" wire:model.lazy="currentProfileGender" autocomplete="gender" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <select id="gender" wire:model.defer="currentProfileGender" autocomplete="gender" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                 <option value="male" selected>Male</option>
                                 <option value="female">Female</option>
                                 <option value="other">Other</option>
@@ -248,7 +248,7 @@
                         </div>
                         <div class="col-span-3">
                             <label for="age" class="block text-sm font-medium text-gray-700">Age*</label>
-                            <input type="number" min="0" max="180" wire:model.lazy.debounce.1s="currentProfileAge" id="age" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <input type="number" min="0" max="180" wire:model.defer="currentProfileAge" id="age" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                             @error('currentProfileAge') <span class="text-sm text-red-700">{{ $message }}</span> @enderror
                         </div>
                     </div>
@@ -291,22 +291,22 @@
                     <div class="grid grid-cols-6 gap-6 my-8">
                         <div class="col-span-2">
                             <label for="systole" class="block text-sm font-medium text-gray-700">Systole*</label>
-                            <input type="number" min="0" max="350" wire:model.lazy.debounce.1s="systole" id="systole" placeholder="120" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <input type="number" min="0" max="350" wire:model.defer="systole" id="systole" placeholder="120" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                             @error('systole') <span class="text-sm text-red-700">{{ $message }}</span> @enderror
                         </div>
                         <div class="col-span-2">
                             <label for="diastole" class="block text-sm font-medium text-gray-700">Diastole*</label>
-                            <input type="number" min="0" max="350" wire:model.lazy.debounce.1s="diastole" id="diastole" placeholder="80" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <input type="number" min="0" max="350" wire:model.defer="diastole" id="diastole" placeholder="80" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                             @error('diastole') <span class="text-sm text-red-700">{{ $message }}</span> @enderror
                         </div>
                         <div class="col-span-2">
                             <label for="pulse" class="block text-sm font-medium text-gray-700">Pulse*</label>
-                            <input type="number" min="0" max="350" wire:model.lazy.debounce.1s="pulse" id="pulse" placeholder="72" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <input type="number" min="0" max="350" wire:model.defer="pulse" id="pulse" placeholder="72" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                             @error('pulse') <span class="text-sm text-red-700">{{ $message }}</span> @enderror
                         </div>
                         <div class="col-span-2">
                             <label for="is_irregular_hb" class="block text-sm font-medium text-gray-700"><abbr title="Irregular Heart Beat">IHB</abbr></label>
-                            <select id="is_irregular_hb" wire:model.lazy="is_irregular_hb" autocomplete="location" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <select id="is_irregular_hb" wire:model.defer="is_irregular_hb" autocomplete="location" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                 <option value="0">No</option>
                                 <option value="1">Yes</option>
                                 <option value="">N/A</option>
@@ -315,17 +315,17 @@
                         </div>
                         <div class="col-span-2">
                             <label for="pp" class="block text-sm font-medium text-gray-700"><abbr title="Pulse Pressure">PP</abbr></label>
-                            <input type="number" min="0" max="350" wire:model.lazy.debounce.1s="pulse_pressure" id="pp" autocomplete="given-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <input type="number" min="0" max="350" wire:model.defer="pulse_pressure" id="pp" autocomplete="given-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                             @error('pulse_pressure') <span class="text-sm text-red-700">{{ $message }}</span> @enderror
                         </div>
                         <div class="col-span-2">
                             <label for="map" class="block text-sm font-medium text-gray-700"><abbr title="Mean Arterial Pressure">MAP</abbr></label>
-                            <input type="number" min="0" max="180" wire:model.lazy.debounce.1s="mean_arterial_pressure" id="map" autocomplete="family-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <input type="number" min="0" max="180" wire:model.defer="mean_arterial_pressure" id="map" autocomplete="family-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                             @error('mean_arterial_pressure') <span class="text-sm text-red-700">{{ $message }}</span> @enderror
                         </div>
                         <div class="col-span-3">
                             <label for="location" class="block text-sm font-medium text-gray-700">Location</label>
-                            <select id="location" wire:model.lazy="location" autocomplete="location" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <select id="location" wire:model.defer="location" autocomplete="location" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                 <option value="left">Left</option>
                                 <option value="right">Right</option>
                                 <option value="other">Other</option>
@@ -334,7 +334,7 @@
                         </div>
                         <div class="col-span-3">
                             <label for="posture" class="block text-sm font-medium text-gray-700">Posture</label>
-                            <select id="posture" wire:model.lazy="posture" autocomplete="posture" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <select id="posture" wire:model.defer="posture" autocomplete="posture" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                 <option value="seated">Seated</option>
                                 <option value="stand">Stand</option>
                                 <option value="other">Other</option>
@@ -343,12 +343,12 @@
                         </div>
                         <div class="col-span-6">
                             <label for="created_at" class="block text-sm font-medium text-gray-700">Created At</label>
-                            <input type="text" wire:model.lazy="created_at" id="created_at" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <input type="text" wire:model.defer="created_at" id="created_at" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                             @error('created_at') <span class="text-sm text-red-700">{{ $message }}</span> @enderror
                         </div>
                         <div class="col-span-6">
                             <label for="note" class="block text-sm font-medium text-gray-700">Note</label>
-                            <textarea type="text" wire:model.lazy="note" id="note" autocomplete="street-address" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"></textarea>
+                            <textarea type="text" wire:model.defer="note" id="note" autocomplete="street-address" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"></textarea>
                             @error('note') <span class="text-sm text-red-700">{{ $message }}</span> @enderror
                         </div>
                     </div>
@@ -375,22 +375,22 @@
                     <div class="grid grid-cols-6 gap-6 my-8">
                         <div class="col-span-2">
                             <label for="systole" class="block text-sm font-medium text-gray-700">Systole*</label>
-                            <input type="number" min="0" max="350" wire:model.lazy.debounce.1s="setSystole" id="systole" placeholder="120" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <input type="number" min="0" max="350" wire:model.defer="setSystole" id="systole" placeholder="120" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                             @error('setSystole') <span class="text-sm text-red-700">{{ $message }}</span> @enderror
                         </div>
                         <div class="col-span-2">
                             <label for="diastole" class="block text-sm font-medium text-gray-700">Diastole*</label>
-                            <input type="number" min="0" max="350" wire:model.lazy.debounce.1s="setDiastole" id="diastole" placeholder="80" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <input type="number" min="0" max="350" wire:model.defer="setDiastole" id="diastole" placeholder="80" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                             @error('setDiastole') <span class="text-sm text-red-700">{{ $message }}</span> @enderror
                         </div>
                         <div class="col-span-2">
                             <label for="pulse" class="block text-sm font-medium text-gray-700">Pulse*</label>
-                            <input type="number" min="0" max="350" wire:model.lazy.debounce.1s="setPulse" id="pulse" placeholder="72" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <input type="number" min="0" max="350" wire:model.defer="setPulse" id="pulse" placeholder="72" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                             @error('setPulse') <span class="text-sm text-red-700">{{ $message }}</span> @enderror
                         </div>
                         <div class="col-span-2">
                             <label for="is_irregular_hb" class="block text-sm font-medium text-gray-700"><abbr title="Irregular Heart Beat">IHB</abbr></label>
-                            <select id="is_irregular_hb" wire:model.lazy="setIsIrregularHb" autocomplete="location" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <select id="is_irregular_hb" wire:model.defer="setIsIrregularHb" autocomplete="location" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                 <option value="0">No</option>
                                 <option value="1">Yes</option>
                                 <option value="">N/A</option>
@@ -399,17 +399,17 @@
                         </div>
                         <div class="col-span-2">
                             <label for="pp" class="block text-sm font-medium text-gray-700"><abbr title="Pulse Pressure">PP</abbr></label>
-                            <input type="number" min="0" max="350" wire:model.lazy.debounce.1s="setPulsePressure" id="pp" autocomplete="given-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <input type="number" min="0" max="350" wire:model.defer="setPulsePressure" id="pp" autocomplete="given-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                             @error('setPulsePressure') <span class="text-sm text-red-700">{{ $message }}</span> @enderror
                         </div>
                         <div class="col-span-2">
                             <label for="map" class="block text-sm font-medium text-gray-700"><abbr title="Mean Arterial Pressure">MAP</abbr></label>
-                            <input type="number" min="0" max="180" wire:model.lazy.debounce.1s="setMeanArterialPressure" id="map" autocomplete="family-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <input type="number" min="0" max="180" wire:model.defer="setMeanArterialPressure" id="map" autocomplete="family-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                             @error('setMeanArterialPressure') <span class="text-sm text-red-700">{{ $message }}</span> @enderror
                         </div>
                         <div class="col-span-3">
                             <label for="location" class="block text-sm font-medium text-gray-700">Location</label>
-                            <select id="location" wire:model.lazy="setLocation" autocomplete="location" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <select id="location" wire:model.defer="setLocation" autocomplete="location" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                 <option value="left">Left</option>
                                 <option value="right">Right</option>
                                 <option value="other">Other</option>
@@ -418,7 +418,7 @@
                         </div>
                         <div class="col-span-3">
                             <label for="posture" class="block text-sm font-medium text-gray-700">Posture</label>
-                            <select id="posture" wire:model.lazy="setPosture" autocomplete="posture" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <select id="posture" wire:model.defer="setPosture" autocomplete="posture" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                 <option value="seated">Seated</option>
                                 <option value="stand">Stand</option>
                                 <option value="other">Other</option>
@@ -427,12 +427,12 @@
                         </div>
                         <div class="col-span-6">
                             <label for="created_at" class="block text-sm font-medium text-gray-700">Created At</label>
-                            <input type="text" wire:model.lazy="setCreatedAt" id="created_at" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <input type="text" wire:model.defer="setCreatedAt" id="created_at" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                             @error('setCreatedAt') <span class="text-sm text-red-700">{{ $message }}</span> @enderror
                         </div>
                         <div class="col-span-6">
                             <label for="note" class="block text-sm font-medium text-gray-700">Note</label>
-                            <textarea type="text" wire:model.lazy="setNote" id="note" autocomplete="street-address" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"></textarea>
+                            <textarea type="text" wire:model.defer="setNote" id="note" autocomplete="street-address" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"></textarea>
                             @error('setNote') <span class="text-sm text-red-700">{{ $message }}</span> @enderror
                         </div>
                     </div>
