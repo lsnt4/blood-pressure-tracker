@@ -23,8 +23,7 @@
                         </div>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-                            <x-jet-dropdown-link href="{{ route('logout') }}" class="dark:bg-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200"
-                                        onclick="event.preventDefault();
+                            <x-jet-dropdown-link href="{{ route('logout') }}" class="dark:bg-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200" onclick="event.preventDefault();
                                             this.closest('form').submit();">
                                 {{ __('Logout') }}
                             </x-jet-dropdown-link>
@@ -70,7 +69,7 @@
                             </div>
                         </button>
                     </div>
-                    <div :class="{'block': open, 'hidden': !open}"  @click="open = false" @click.away="open = false" class="origin-top-left absolute left-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden">
+                    <div :class="{'block': open, 'hidden': !open}" @click="open = false" @click.away="open = false" class="origin-top-left absolute left-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden">
                         <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                             <a href="" wire:click.prefetch.prevent="setCurrentProfile({{ '' }})" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem">All Profiles</a>
                             @foreach ($profiles as $profile)
@@ -94,24 +93,19 @@
                         <table class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-200">
                                 <tr>
-                                    <th
-                                        class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-600 uppercase tracking-wider">
+                                    <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-600 uppercase tracking-wider">
                                         Profile
                                     </th>
-                                    <th
-                                        class="px-6 py-3 bg-gray-50 text-center text-xs leading-4 font-medium text-gray-600 uppercase tracking-wider">
+                                    <th class="px-6 py-3 bg-gray-50 text-center text-xs leading-4 font-medium text-gray-600 uppercase tracking-wider">
                                         Systole
                                     </th>
-                                    <th
-                                        class="px-6 py-3 bg-gray-50 text-center text-xs leading-4 font-medium text-gray-600 uppercase tracking-wider">
+                                    <th class="px-6 py-3 bg-gray-50 text-center text-xs leading-4 font-medium text-gray-600 uppercase tracking-wider">
                                         Diastole
                                     </th>
-                                    <th
-                                        class="px-6 py-3 bg-gray-50 text-center text-xs leading-4 font-medium text-gray-600 uppercase tracking-wider">
+                                    <th class="px-6 py-3 bg-gray-50 text-center text-xs leading-4 font-medium text-gray-600 uppercase tracking-wider">
                                         Pulse
                                     </th>
-                                    <th
-                                        class="px-6 py-3 bg-gray-50 text-right text-xs leading-4 font-medium text-gray-600 uppercase tracking-wider">
+                                    <th class="px-6 py-3 bg-gray-50 text-right text-xs leading-4 font-medium text-gray-600 uppercase tracking-wider">
                                         Date
                                     </th>
                                     <th class="px-6 py-3 bg-gray-50"></th>
@@ -119,52 +113,58 @@
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
                                 @if (count($records))
-                                    @foreach ($records as $record)
-                                    <tr class="hover:bg-gray-100 transition duration-75">
-                                        <td class="px-6 py-4 whitespace-no-wrap cursor-pointer" wire:click.prefetch.prevent="setCurrentProfile({{ $record->profile->id }})">
-                                            <div class="flex items-center">
-                                                @if ($record->profile->gender == 'male')
-                                                <div class="bg-blue-200 rounded-full text-3xl p-2">👨</div>
-                                                @elseif($record->profile->gender == 'female')
-                                                <div class="bg-pink-200 rounded-full text-3xl p-2">👩</div>
-                                                @else
-                                                <div class="bg-gray-200 rounded-full text-3xl p-2">👱</div>
-                                                @endif
-                                                <div class="ml-4">
-                                                    <div class="text-sm leading-5 font-medium text-gray-900 truncate">
-                                                        {{ $record->profile->name }}
-                                                    </div>
+                                @foreach ($records as $record)
+                                <tr class="hover:bg-gray-100 transition duration-75">
+                                    <td class="px-6 py-0 sm:py-2 whitespace-no-wrap cursor-pointer" wire:click.prefetch.prevent="setCurrentProfile({{ $record->profile->id }})">
+                                        <div class="flex items-center">
+                                            @if ($record->profile->gender == 'male')
+                                            <div class="bg-blue-200 rounded-full text-3xl sm:p-2 p-1">👨</div>
+                                            @elseif($record->profile->gender == 'female')
+                                            <div class="bg-pink-200 rounded-full text-3xl sm:p-2 p-1">👩</div>
+                                            @else
+                                            <div class="bg-gray-200 rounded-full text-3xl sm:p-2 p-1">👱</div>
+                                            @endif
+                                            <div class="ml-4">
+                                                <div class="text-sm leading-5 font-medium text-gray-900 truncate">
+                                                    {{ $record->profile->name }}
                                                 </div>
                                             </div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-no-wrap text-center">
-                                            <div class="inline-block text-sm leading-5 font-bold text-white px-2 rounded-full {{ $record->systole_color }}">{{ $record->systole }}</div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-no-wrap text-center">
-                                            <div class="inline-block text-sm leading-5 font-bold text-white px-2 rounded-full {{ $record->diastole_color }}">{{ $record->diastole }}</div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-no-wrap text-center">
-                                            <div class="text-sm leading-5 text-gray-900">{{ $record->pulse }}</div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-no-wrap text-right">
-                                            <div class="text-sm leading-5 text-gray-900 truncate" title="{{ $record->created_at }}">{{ $record->created_at->diffForHumans(['parts' => 2]) }}</div>
-                                        </td>
-                                        <td
-                                            class="px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
-                                            <button wire:click.prevent="setRecord({{ $record->id }})" class="text-gray-200 font-bold bg-blue-600 ml-1 px-4 py-2 rounded-md border border-gray-400 shadow-sm">
-                                                <div class="w-5">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                                                    </svg>
-                                                </div>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    @endforeach
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-0 sm:py-2 whitespace-no-wrap text-center">
+                                        <div class="inline-block text-sm leading-5 font-bold text-white px-2 rounded-full {{ $record->systole_color }}">{{ $record->systole }}</div>
+                                    </td>
+                                    <td class="px-6 py-0 sm:py-2 whitespace-no-wrap text-center">
+                                        <div class="inline-block text-sm leading-5 font-bold text-white px-2 rounded-full {{ $record->diastole_color }}">{{ $record->diastole }}</div>
+                                    </td>
+                                    <td class="px-6 py-0 sm:py-2 whitespace-no-wrap text-center">
+                                        <div class="text-sm leading-5 text-gray-900">{{ $record->pulse }}</div>
+                                    </td>
+                                    <td class="px-6 py-0 sm:py-2 whitespace-no-wrap text-right">
+                                        <div class="text-sm leading-5 text-gray-900 truncate" title="{{ $record->created_at }}">
+                                            <div>{{ $record->created_at }}</div>
+                                            <div class="text-gray-400 text-sm">{{ $record->created_at->diffForHumans(['parts' => 2]) }}</div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-0 sm:py-2 whitespace-no-wrap text-right text-sm leading-5 font-medium">
+                                        <button wire:click.prevent="setRecord({{ $record->id }})" class="text-gray-200 font-bold bg-blue-600 ml-1 px-4 py-2 rounded-md border border-gray-400 shadow-sm">
+                                            <div class="w-5">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                                </svg>
+                                            </div>
+                                        </button>
+                                    </td>
+                                </tr>
+                                @endforeach
                                 @elseif (count($profiles) == 0)
-                                    <tr><td class="text-center text-gray-600 py-5" colspan="6">Create a new profile to begin.</td></tr>
+                                <tr>
+                                    <td class="text-center text-gray-600 py-5" colspan="6">Create a new profile to begin.</td>
+                                </tr>
                                 @elseif (count($records) == 0)
-                                    <tr><td class="text-center text-gray-600 py-5" colspan="6">Select a profile to add new records.</td></tr>
+                                <tr>
+                                    <td class="text-center text-gray-600 py-5" colspan="6">Select a profile to add new records.</td>
+                                </tr>
                                 @endif
                             </tbody>
                         </table>
