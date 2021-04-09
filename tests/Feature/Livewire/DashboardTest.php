@@ -13,6 +13,8 @@ class DashboardTest extends TestCase
     /** @test */
     public function the_component_can_render()
     {
+        $this->markTestSkipped('Dashboard:class');
+
         $component = Livewire::test(Dashboard::class);
 
         $component->assertStatus(200);
