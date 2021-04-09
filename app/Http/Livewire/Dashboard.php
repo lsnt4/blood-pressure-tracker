@@ -71,16 +71,18 @@ class Dashboard extends Component
 
         $profiles = Profile::select('id', 'name')->where('owner_id', auth()->id())->latest()->get();
         $records = Record::whereIn('profile_id', function ($query) {
-                $query->select('id')->from('profiles')
-                    ->where('owner_id', auth()->id());
-            })
+            $query->select('id')->from('profiles')
+                ->where('owner_id', auth()->id());
+        })
             ->when($currentProfileId != '', function ($query) use ($currentProfileId) {
                 $query->where('profile_id', $currentProfileId);
             })
             ->latest()
             ->paginate(25);
 
-        return view('livewire.dashboard', [
+        return view(
+            'livewire.dashboard',
+            [
                 'profiles' => $profiles,
                 'records' => $records,
             ]
@@ -122,8 +124,7 @@ class Dashboard extends Component
             'currentProfileName' => 'required|min:2|max:32|regex:/^[a-zA-Z\s]*$/',
             'currentProfileGender' => 'required|in:male,female,other',
             'currentProfileAge' => 'nullable|numeric|digits_between:0,180',
-        ], [
-        ], [
+        ], [], [
             'currentProfileName' => 'name',
             'currentProfileGender' => 'gender',
             'currentProfileAge' => 'age',
@@ -171,7 +172,7 @@ class Dashboard extends Component
         $record->save();
 
         $this->reset();
-        
+
         $this->setCurrentProfile($record->profile->id);
     }
 
@@ -233,7 +234,7 @@ class Dashboard extends Component
         $this->currentProfileId = $currentProfileId;
 
         $profile = Profile::where('id', $this->currentProfileId)->first();
-        
+
         if ($profile) {
             $this->currentProfileName = $profile->name;
             $this->currentProfileGender = $profile->gender;
