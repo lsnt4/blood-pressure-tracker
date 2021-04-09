@@ -115,14 +115,14 @@
                                 @if (count($records))
                                 @foreach ($records as $record)
                                 <tr class="hover:bg-gray-100 transition duration-75">
-                                    <td class="px-6 py-0 sm:py-2 whitespace-no-wrap cursor-pointer" wire:click.prefetch.prevent="setCurrentProfile({{ $record->profile->id }})">
+                                    <td class="sm:px-6 px-0 py-0 sm:py-2 whitespace-no-wrap cursor-pointer" wire:click.prefetch.prevent="setCurrentProfile({{ $record->profile->id }})">
                                         <div class="flex items-center">
                                             @if ($record->profile->gender == 'male')
-                                            <div class="bg-blue-200 rounded-full text-3xl sm:p-2 p-1">👨</div>
+                                            <div class="bg-blue-200 sm:rounded-full text-3xl sm:p-2 p-1">👨</div>
                                             @elseif($record->profile->gender == 'female')
-                                            <div class="bg-pink-200 rounded-full text-3xl sm:p-2 p-1">👩</div>
+                                            <div class="bg-pink-200 sm:rounded-full text-3xl sm:p-2 p-1">👩</div>
                                             @else
-                                            <div class="bg-gray-200 rounded-full text-3xl sm:p-2 p-1">👱</div>
+                                            <div class="bg-gray-200 sm:rounded-full text-3xl sm:p-2 p-1">👱</div>
                                             @endif
                                             <div class="ml-4">
                                                 <div class="text-sm leading-5 font-medium text-gray-900 truncate">
@@ -131,22 +131,22 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="px-6 py-0 sm:py-2 whitespace-no-wrap text-center">
+                                    <td class="sm:px-6 px-0 py-0 sm:py-2 whitespace-no-wrap text-center">
                                         <div class="inline-block text-sm leading-5 font-bold text-white px-2 rounded-full {{ $record->systole_color }}">{{ $record->systole }}</div>
                                     </td>
-                                    <td class="px-6 py-0 sm:py-2 whitespace-no-wrap text-center">
+                                    <td class="sm:px-6 px-0 py-0 sm:py-2 whitespace-no-wrap text-center">
                                         <div class="inline-block text-sm leading-5 font-bold text-white px-2 rounded-full {{ $record->diastole_color }}">{{ $record->diastole }}</div>
                                     </td>
-                                    <td class="px-6 py-0 sm:py-2 whitespace-no-wrap text-center">
+                                    <td class="sm:px-6 px-0 py-0 sm:py-2 whitespace-no-wrap text-center">
                                         <div class="text-sm leading-5 text-gray-900">{{ $record->pulse }}</div>
                                     </td>
-                                    <td class="px-6 py-0 sm:py-2 whitespace-no-wrap text-right">
+                                    <td class="sm:px-6 px-0 py-0 sm:py-2 whitespace-no-wrap text-right">
                                         <div class="text-sm leading-5 text-gray-900 truncate" title="{{ $record->created_at }}">
                                             <div>{{ $record->created_at }}</div>
                                             <div class="text-gray-400 text-sm">{{ $record->created_at->diffForHumans(['parts' => 2]) }}</div>
                                         </div>
                                     </td>
-                                    <td class="px-6 py-0 sm:py-2 whitespace-no-wrap text-right text-sm leading-5 font-medium">
+                                    <td class="sm:px-6 px-0 py-0 sm:py-2 whitespace-no-wrap text-right text-sm leading-5 font-medium">
                                         <button wire:click.prevent="setRecord({{ $record->id }})" class="text-gray-200 font-bold bg-blue-600 ml-1 px-4 py-2 rounded-md border border-gray-400 shadow-sm">
                                             <div class="w-5">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
